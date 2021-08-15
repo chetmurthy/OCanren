@@ -1,0 +1,23 @@
+#use "topfind.camlp5";;
+
+#require "camlp5.pa_op";;
+Pcaml.inter_phrases := Some ";;\n";;
+#require "camlp5.pr_o";;
+#require "camlp5.macro";;
+#require "pa_ppx.testutils";;
+
+#require "GT-p5";;
+#require "GT.syntax.all";;
+
+#load "../_build/default/camlp5/.pa_ocanren.objs/byte/pa_ocanren.cmo";;
+
+#require "GT";;
+
+(*
+;;; Local Variables: ***
+;;; mode:tuareg ***
+;;; End: ***
+
+*)
+
+open Pa_ppx_testutils.Papr_util ;;

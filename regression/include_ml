@@ -41,10 +41,10 @@ open Pa_ppx_testutils.Papr_util ;;
 
 (* parse your syntax and do NOT pretty-print -- use OCaml's default printers *)
 {|
-ocanren {fresh c     in Nat.(<=) }
+ocanren {fresh c     in Nat.(<=) 0 n }
 |} |> PAPR.Implem.pa1 ;;
 
 (* parse your syntax and pretty-print with camlp5 printers *)
 {|
-ocanren {fresh c     in Nat.(<=) }
+ocanren {fresh c     in Nat.(<=) 0 n }
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;

@@ -44,7 +44,11 @@ let rec ctor e =
   let loc = MLast.loc_of_expr e in
   match e with
   | <:expr< $uid:u$ >>   -> Some (<:expr< $lid:decapitalize u$ >>)
+(*
   | <:expr< $m$ . ($e$) >> -> (match ctor e with Some e -> Some (<:expr< $m$ . ($e$) >>) | _ -> None)
+ *)
+  | <:expr< $longid:m$ . ($e$) >> -> (match ctor e with Some e -> Some (<:expr< $longid:m$ . ($e$) >>) | _ -> None)
+
   | _                    -> None
 
 let list_of_list es =
@@ -282,7 +286,7 @@ EXTEND
        | _   -> <:expr< ( $list:ts$ ) >>
       )
     ] |
-    [ long_ident ]
+    [ e = expr LEVEL "simple" -> e ]
   ];
 
   ctyp: [

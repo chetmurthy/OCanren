@@ -37,7 +37,7 @@ depends: [
 build: [
   ["dune" "subst"] { dev }
   ["dune" "build" "-p" name "-j" jobs]
-  [make "test"] { with-test }
+#  [make "test"] { with-test }
 ]
 
 dev-repo: "git+https://github.com/JetBrains-Research/OCanren.git"

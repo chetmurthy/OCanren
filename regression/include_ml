@@ -1,17 +1,34 @@
+(* setup to use camlp5 *)
 #use "topfind.camlp5";;
+
+(* original syntax, but not installed into toplevel -- so only accessible by calling test utilities.
+   We could do "#camlp5o;;" -- but it's a mess to use syntax extension at the same time that you're
+   trying to debug those same extensions *)
 
 #require "camlp5.pa_op";;
 Pcaml.inter_phrases := Some ";;\n";;
 #require "camlp5.pr_o";;
+
+(* other camlp5 extensions you need *) 
 #require "camlp5.macro";;
+
+(* This is where the test utilities come from.
+
+   NOTE WELL: it turns out that these same functions are available in camlp5/testsuite and you
+   could load them from there, but that would mean building camlp5 and the testsuite directory.
+   By doing the below, you can just stick to loading ocamlfind packages.
+ *)
+
 #require "pa_ppx.testutils";;
 
+(* Your stuff *)
 #require "GT-p5";;
 #require "GT.syntax.all";;
 
+(* I couldn't figure out how to load ocanren's syntax extension into the toplevel but I'm sure
+   there's a way to do it.  This is a quick hack.
+ *)
 #load "../_build/default/camlp5/.pa_ocanren.objs/byte/pa_ocanren.cmo";;
-
-#require "GT";;
 
 (*
 ;;; Local Variables: ***
@@ -21,3 +38,13 @@ Pcaml.inter_phrases := Some ";;\n";;
 *)
 
 open Pa_ppx_testutils.Papr_util ;;
+
+(* parse your syntax and do NOT pretty-print -- use OCaml's default printers *)
+{|
+ocanren {fresh c     in Nat.(<=) }
+|} |> PAPR.Implem.pa1 ;;
+
+(* parse your syntax and pretty-print with camlp5 printers *)
+{|
+ocanren {fresh c     in Nat.(<=) }
+|} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
